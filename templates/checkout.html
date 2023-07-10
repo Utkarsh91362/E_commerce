@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Checkout</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+</head>
+<body>
+    <h1>Checkout</h1>
+    <h2>Order Summary:</h2>
+    <ul>
+        {% for product in cart %}
+        <li>
+            <h3>{{ product.name }}</h3>
+            <p>Price: ${{ product.price }}</p>
+        </li>
+        {% endfor %}
+    </ul>
+    <h2>Shipping Address:</h2>
+    <form>
+        <!-- Form fields for shipping information -->
+    </form>
+    <h2>Payment Details:</h2>
+    <form>
+        <!-- Form fields for payment information -->
+    </form>
+    <button>Place Order</button>
+</body>
+</html>
