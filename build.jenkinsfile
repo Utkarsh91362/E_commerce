@@ -27,23 +27,20 @@ pipeline {
 
     environment {
         AWS_ACCOUNT_ID="854171615125"
-        AWS_REGION = 'eu-north-1'
+        AWS_DEFAULT_REGION = 'eu-north-1'
         IMAGE_REPO_NAME="vanshika_ecommerce"
-        ECR_REPOSITORY = '854171615125.dkr.ecr.eu-north-1.amazonaws.com/vanshika_ecommerce'
+        REPOSITORY_URI = '854171615125.dkr.ecr.eu-north-1.amazonaws.com/vanshika_ecommerce'
     }
 
     stages {
         stage('Build') {
             steps {
-                withCredentials([
-                    awsAccessKey(credentialsId: 'aws-credentials', variable: 'AWS_ACCESS_KEY_ID'),
-                    awsSecretKey(credentialsId: 'aws-credentials', variable: 'AWS_SECRET_ACCESS_KEY')
-                ]) {
+
+                    sh 'aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 854171615125.dkr.ecr.eu-north-1.amazonaws.com'
                     sh 'docker build -t ecommercepi .'
-                    sh 'docker tag ecommercepi:latest $ECR_REPOSITORY:latest'
-                    sh 'aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REPOSITORY'
-                    sh 'docker push $ECR_REPOSITORY:latest'
-                }
+                    sh 'docker tag ecommercepi:latest 854171615125.dkr.ecr.eu-north-1.amazonaws.com/vanshika_ecommerce:latest'
+                    sh 'docker push 854171615125.dkr.ecr.eu-north-1.amazonaws.com/vanshika_ecommerce:latest'
+
             }
         }
     }
