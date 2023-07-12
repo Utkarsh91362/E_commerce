@@ -4,8 +4,8 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 854171615125.dkr.ecr.eu-north-1.amazonaws.com
-                docker build -t ecommercepi .
+               aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 854171615125.dkr.ecr.eu-north-1.amazonaws.com
+               docker build -t ecommercepi .
                 docker tag ecommercepi:latest 854171615125.dkr.ecr.eu-north-1.amazonaws.com/vanshika_ecommerce:latest
                 docker push 854171615125.dkr.ecr.eu-north-1.amazonaws.com/vanshika_ecommerce:latest
 
