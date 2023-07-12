@@ -4,13 +4,20 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-            sh '''
-               aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 854171615125.dkr.ecr.eu-north-1.amazonaws.com
-               docker build -t ecommercepi .
-                docker tag ecommercepi:latest 854171615125.dkr.ecr.eu-north-1.amazonaws.com/vanshika_ecommerce:latest
-                docker push 854171615125.dkr.ecr.eu-north-1.amazonaws.com/vanshika_ecommerce:latest
-            '''
+            withCredentials([
+                    awsAccessKey(credentialsId: '854171615125', variable: 'AKIA4NYEYP6K4DDS5UXS'),
+                    awsSecretKey(credentialsId: '854171615125', variable: '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')
+                ]) {
+                    sh 'aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID'
+                    sh 'aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY'
+                    sh 'aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 854171615125.dkr.ecr.eu-north-1.amazonaws.com'
+                    sh 'docker build -t ecommercepi .'
+                    sh 'docker tag ecommercepi:latest 854171615125.dkr.ecr.eu-north-1.amazonaws.com/vanshika_ecommerce:latest'
+                    sh 'docker push 854171615125.dkr.ecr.eu-north-1.amazonaws.com/vanshika_ecommerce:latest'
+                }
             }
         }
     }
 }
+
+
