@@ -1,4 +1,4 @@
-pipeline {
+/*pipeline {
     agent any
 
     stages {
@@ -7,7 +7,8 @@ pipeline {
             withCredentials([
                     awsAccessKey(credentialsId: '854171615125', variable: 'AKIA4NYEYP6K4DDS5UXS'),
                     awsSecretKey(credentialsId: '854171615125', variable: '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')
-                ]) {
+                ])
+            {
                     sh 'aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID'
                     sh 'aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY'
                     sh 'aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 854171615125.dkr.ecr.eu-north-1.amazonaws.com'
@@ -19,5 +20,29 @@ pipeline {
         }
     }
 }
+*/
 
+pipeline {
+    agent any
 
+    environment {
+        AWS_REGION = 'eu-north-1'
+        ECR_REPOSITORY = '854171615125.dkr.ecr.eu-north-1.amazonaws.com/vanshika_ecommerce'
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                withCredentials([
+                    awsAccessKey(credentialsId: 'aws-credentials', variable: 'AWS_ACCESS_KEY_ID'),
+                    awsSecretKey(credentialsId: 'aws-credentials', variable: 'AWS_SECRET_ACCESS_KEY')
+                ]) {
+                    sh 'docker build -t ecommercepi .'
+                    sh 'docker tag ecommercepi:latest $ECR_REPOSITORY:latest'
+                    sh 'aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REPOSITORY'
+                    sh 'docker push $ECR_REPOSITORY:latest'
+                }
+            }
+        }
+    }
+}
