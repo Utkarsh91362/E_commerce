@@ -26,7 +26,9 @@ pipeline {
     agent any
 
     environment {
+        AWS_ACCOUNT_ID="854171615125"
         AWS_REGION = 'eu-north-1'
+        IMAGE_REPO_NAME="vanshika_ecommerce"
         ECR_REPOSITORY = '854171615125.dkr.ecr.eu-north-1.amazonaws.com/vanshika_ecommerce'
     }
 
