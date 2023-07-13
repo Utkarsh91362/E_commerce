@@ -7,19 +7,28 @@ products = [
     {
         'id': 1,
         'name': 'Product 1',
-        'price': 10.99
-    },
-    {
-        'id': 2,
-        'name': 'Product 2',
-        'price': 19.99
-    },
-    {
-        'id': 3,
-        'name': 'Product 3',
-        'price': 5.99
-    }
+        'name1': 'Product 2',
+        'name2': 'Product 3',
+        'price': 10.99,
+        'price1': 15.99,
+        'price2': 20.99,
+        'img':'./../static/img/image.jpeg',
+        'img1':'./../static/img/images.jpeg',
+        'img2':'./../static/img/shopping.jpeg'
+     }
+    #   {
+    #       'id': 2,
+    #       'name': 'Product 2',
+    #       'price': 19.99
+    #   },
+    #   {
+    #       'id': 3,
+    #       'name': 'Product 3',
+    #       'price': 5.99
+    #   }
 ]
+
+
 
 # Shopping cart
 cart = []
